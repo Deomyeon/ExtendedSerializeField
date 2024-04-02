@@ -30,7 +30,19 @@ public class ExSerializeGenericQueue : IExSerializeObject
             
             for (int index = 0; index < result.Length; ++index)
             {
-                result[index] = DrawDataField(dequeue.Invoke(source, null));
+                result[index] = dequeue.Invoke(source, null);
+            }
+            for (int index = 0; index < result.Length; ++index)
+            {
+                enqueue.Invoke(source, new object[]{ result[index] });
+            }
+            for (int index = 0; index < result.Length; ++index)
+            {
+                result[index] = DrawDataField(result[index]);
+            }
+            for (int index = 0; index < result.Length; ++index)
+            {
+                dequeue.Invoke(source, null);
             }
             for (int index = 0; index < result.Length; ++index)
             {

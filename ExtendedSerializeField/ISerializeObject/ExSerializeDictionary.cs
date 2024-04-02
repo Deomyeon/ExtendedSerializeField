@@ -28,6 +28,9 @@ public class ExSerializeDictionary : IExSerializeObject
             List<object> keys = new List<object>();
             List<object> values = new List<object>();
 
+            MethodInfo tryAdd = source.GetType().GetMethod("TryAdd");
+            MethodInfo remove = source.GetType().GetMethod("Remove", new System.Type[] { source.GetType().GenericTypeArguments[0] });
+
             for (IEnumerator iterator = source.GetType().GetMethod("GetEnumerator").Invoke(source, null) as IEnumerator; iterator.MoveNext();)
             {
                 keys.Add(iterator.Current.GetType().GetProperty("Key").GetMethod.Invoke(iterator.Current, null));
@@ -44,7 +47,7 @@ public class ExSerializeDictionary : IExSerializeObject
             EditorGUILayout.EndHorizontal();
             for (int index = 0; index < keys.Count; ++index)
             {
-                source.GetType().GetMethod("Remove", new System.Type[] { source.GetType().GenericTypeArguments[0] }).Invoke(source, new object[]{ keys[index] });
+                remove.Invoke(source, new object[]{ keys[index] });
                 
                 EditorGUILayout.BeginHorizontal();
                 keys[index] = DrawDataField(keys[index]);
@@ -58,7 +61,7 @@ public class ExSerializeDictionary : IExSerializeObject
             for (int index = 0; index < keys.Count; ++index)
             {
                 int rIndex = keys.Count - index - 1;
-                source.GetType().GetMethod("TryAdd").Invoke(source, new object[]{ keys[rIndex], values[rIndex] });
+                tryAdd.Invoke(source, new object[]{ keys[rIndex], values[rIndex] });
             }
 
             info.SetValue(monoBehaviour, (object)(source));

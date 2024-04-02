@@ -35,7 +35,15 @@ public class ExSerializeGenericStack : IExSerializeObject
             }
             for (int index = 0; index < result.Length; ++index)
             {
+                push.Invoke(source, new object[]{ result[index] });
+            }
+            for (int index = 0; index < result.Length; ++index)
+            {
                 result[index] = DrawDataField(result[index]);
+            }
+            for (int index = 0; index < result.Length; ++index)
+            {
+                pop.Invoke(source, null);
             }
             for (int index = 0; index < result.Length; ++index)
             {

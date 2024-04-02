@@ -14,6 +14,11 @@ public abstract class IExSerializeObject
 
     public static object DrawDataField(object data)
     {
+        if (data == null)
+        {
+            EditorGUILayout.LabelField("Invalid Data");
+            return data;
+        }
         if (data.GetType() == typeof(int))
         {
             return EditorGUILayout.IntField("Int", (int)data);
@@ -57,6 +62,10 @@ public abstract class IExSerializeObject
         else if (data.GetType() == typeof(RectInt))
         {
             return EditorGUILayout.RectIntField((RectInt)data);
+        }
+        else if (data.GetType().BaseType == typeof(Object))
+        {
+            return EditorGUILayout.ObjectField((Object)data, data.GetType(), true);
         }
         else
         {

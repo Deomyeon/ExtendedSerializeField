@@ -62,7 +62,8 @@ public class ExSerializeHashtable : IExSerializeObject
             Hashtable result = new Hashtable();
             for (int index = 0; index < keys.Count; ++index)
             {
-                result[keys[index]] = values[index];
+                int rIndex = keys.Count - index - 1;
+                result[keys[rIndex]] = values[rIndex];
             }
 
             info.SetValue(monoBehaviour, (object)(result));
