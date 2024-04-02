@@ -28,6 +28,7 @@ SerializeField Extension
 #### - Color
 #### - Rect
 #### - RectInt
+#### - Unity.Object castable type  (MonoBehaviour, GameObject, Transform, Button, Scene, ...)
 
 <br><br>
 
@@ -58,7 +59,7 @@ private Stack<int> stackGeneric1; // Valid
 Queue<string> queueGeneric1; // Valid
 
 [ExSerializeField]
-LinkedList<MonoBehaviour> linkedList1; // InValid
+LinkedList<MonoBehaviour> linkedList1; // Now Valid
 
 [ExSerializeField]
 CustomCollection<string> customCollection; // InValid
