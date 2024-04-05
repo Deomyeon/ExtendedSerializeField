@@ -38,7 +38,7 @@ public class ExSerializeEditor : Editor
         
             if (ExSerializeField.targetFields.ContainsKey(serializedObject.targetObject as MonoBehaviour))
             {
-                (FieldInfo[], bool[]) fields = ExSerializeField.targetFields[serializedObject.targetObject as MonoBehaviour];
+                (FieldInfo[], bool[], ExSerializeFieldFlag[]) fields = ExSerializeField.targetFields[serializedObject.targetObject as MonoBehaviour];
 
                 for (int index = 0; index < fields.Item1.Length; ++index)
                 {
@@ -60,7 +60,7 @@ public class ExSerializeEditor : Editor
                         {
                             if (serializedObject.targetObject)
                             EditorGUILayout.Space(5);
-                            extendedTypes[type](field, serializedObject.targetObject);
+                            extendedTypes[type](field, serializedObject.targetObject, fields.Item3[index]);
                             EditorGUILayout.Space(5);
                         }
                     }

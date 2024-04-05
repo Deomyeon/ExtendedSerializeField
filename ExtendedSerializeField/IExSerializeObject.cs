@@ -11,11 +11,11 @@ public abstract class IExSerializeObject
     protected static Dictionary<FieldInfo, bool> foldOuts = new Dictionary<FieldInfo, bool>();
     protected static Dictionary<object, Vector2> scrollPositions = new Dictionary<object, Vector2>();
 
-    public static void DrawOnInspector(FieldInfo info, Object monoBehaviour)
+    public static void DrawOnInspector(FieldInfo info, Object monoBehaviour, ExSerializeFieldFlag flags)
     {
         
     }
-    public delegate void ExSerializeMethod(FieldInfo info, Object monoBehaviour);
+    public delegate void ExSerializeMethod(FieldInfo info, Object monoBehaviour, ExSerializeFieldFlag flags);
 
     public static object DrawDataField(object data)
     {
