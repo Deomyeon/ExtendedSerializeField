@@ -29,10 +29,19 @@ SerializeField Extension
 #### - Rect
 #### - RectInt
 #### - Unity.Object castable type  (MonoBehaviour, GameObject, Transform, Button, Scene, ...)
+#### - Enum
+#### - Serializable Type
 
 <br><br>
 
 ##### Property is not supported. Only support Field data.
+
+<br><br>
+
+##ExSerializeFieldFlag
+#### - ExSerializeFieldFlag.Clear
+#### - ExSerializeFieldFlag.RemoveElement
+#### - ExSerializeFieldFlag.CloneElement // not works in unique structure.
 
 
 <br><br><br>
@@ -59,12 +68,27 @@ private Stack<int> stackGeneric1; // Valid
 Queue<string> queueGeneric1; // Valid
 
 [ExSerializeField]
-LinkedList<MonoBehaviour> linkedList1; // Now Valid
+LinkedList<MonoBehaviour> linkedList1; // Valid
 
 [ExSerializeField]
 CustomCollection<string> customCollection; // InValid
 
 [ExSerializeField]
 Dictionary<string, Vector2> dictionary1; // Valid
+
+[System.Serializable]
+struct myClass
+{
+  int id;
+  string name;
+  someFlag flags;
+}
+
+[ExSerializeField]
+Stack<myClass> stack3; // Valid
+
+// Attribute Additional Features
+
+[ExSerializeField(ExSerializeFieldFlag.Clear | ExSerializeFieldFlag.RemoveElement)]
 
 ```
