@@ -17,6 +17,17 @@ public class ExSerializeField : Attribute
         EditorApplication.update += Update;
     }
 
+    ExSerializeFieldFlag flags;
+    public ExSerializeField()
+    {
+        this.flags = ExSerializeFieldFlag.Default;
+    }
+
+    public ExSerializeField(ExSerializeFieldFlag flags)
+    {
+        this.flags = flags;
+    }
+
     static List<bool> fieldCheckList = new List<bool>();
 
     static void Update()
@@ -52,4 +63,13 @@ public class ExSerializeField : Attribute
         }
     }
     #endif
+}
+
+public enum ExSerializeFieldFlag
+{
+    Default = 0,
+    Clear = 1,
+    RemoveElement = 2,
+    AddElement = 3,
+
 }

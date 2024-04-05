@@ -7,8 +7,6 @@ using UnityEngine;
 
 public class ExSerializeGenericQueue : IExSerializeObject
 {
-    static Dictionary<FieldInfo, bool> foldOuts = new Dictionary<FieldInfo, bool>();
-
     public new static void DrawOnInspector(FieldInfo info, Object monoBehaviour)
     {
         object source = info.GetValue(monoBehaviour);
@@ -36,10 +34,12 @@ public class ExSerializeGenericQueue : IExSerializeObject
             {
                 enqueue.Invoke(source, new object[]{ result[index] });
             }
+            EditorGUILayout.BeginVertical(GUI.skin.box);
             for (int index = 0; index < result.Length; ++index)
             {
                 result[index] = DrawDataField(result[index]);
             }
+            EditorGUILayout.EndVertical();
             for (int index = 0; index < result.Length; ++index)
             {
                 dequeue.Invoke(source, null);

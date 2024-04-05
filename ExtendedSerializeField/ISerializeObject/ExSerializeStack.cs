@@ -9,8 +9,6 @@ using UnityEngine;
 public class ExSerializeStack : IExSerializeObject
 {
     
-    static Dictionary<FieldInfo, bool> foldOuts = new Dictionary<FieldInfo, bool>();
-
     public new static void DrawOnInspector(FieldInfo info, Object monoBehaviour)
     {
         object source = info.GetValue(monoBehaviour);
@@ -27,10 +25,12 @@ public class ExSerializeStack : IExSerializeObject
             Stack data = new Stack(source as Stack);
             object[] list = new object[data.Count];
 
+            EditorGUILayout.BeginVertical(GUI.skin.box);
             for (int index = 0; index < list.Length; ++index)
             {
                 list[index] = DrawDataField(data.Pop());
             }
+            EditorGUILayout.EndVertical();
 
             info.SetValue(monoBehaviour, (object)(new Stack(list)));
         

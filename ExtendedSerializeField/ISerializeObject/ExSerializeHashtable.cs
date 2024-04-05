@@ -10,9 +10,6 @@ public class ExSerializeHashtable : IExSerializeObject
 {
     
     
-    static Dictionary<FieldInfo, bool> foldOuts = new Dictionary<FieldInfo, bool>();
-    static Dictionary<FieldInfo, Vector2> scrollPositions = new Dictionary<FieldInfo, Vector2>();
-    
     public new static void DrawOnInspector(FieldInfo info, Object monoBehaviour)
     {
         Hashtable source = info.GetValue(monoBehaviour) as Hashtable;
@@ -42,7 +39,7 @@ public class ExSerializeHashtable : IExSerializeObject
             
             GUIStyle style = new GUIStyle(GUI.skin.label);
             style.normal.textColor = Color.green;
-            scrollPositions[info] = EditorGUILayout.BeginScrollView(scrollPositions[info], true, false);
+            scrollPositions[info] = EditorGUILayout.BeginScrollView(scrollPositions[info], true, false, GUI.skin.horizontalScrollbar, GUI.skin.verticalScrollbar, GUI.skin.box);
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("Key", style);
             EditorGUILayout.Space(10);

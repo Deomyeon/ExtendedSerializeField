@@ -8,8 +8,6 @@ using UnityEngine;
 
 public class ExSerializeQueue : IExSerializeObject
 {
-    static Dictionary<FieldInfo, bool> foldOuts = new Dictionary<FieldInfo, bool>();
-
     public new static void DrawOnInspector(FieldInfo info, Object monoBehaviour)
     {
         object source = info.GetValue(monoBehaviour);
@@ -25,10 +23,12 @@ public class ExSerializeQueue : IExSerializeObject
         {
             object[] list = (source as Queue).ToArray();
 
+            EditorGUILayout.BeginVertical(GUI.skin.box);
             for (int index = 0; index < list.Length; ++index)
             {
                 list[index] = DrawDataField(list[index]);
             }
+            EditorGUILayout.EndVertical();
 
             info.SetValue(monoBehaviour, (object)(new Queue(list)));
             

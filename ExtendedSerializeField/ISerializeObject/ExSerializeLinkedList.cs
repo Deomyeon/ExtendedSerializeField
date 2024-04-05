@@ -8,8 +8,6 @@ using UnityEngine;
 
 public class ExSerializeLinkedList : IExSerializeObject
 {
-    static Dictionary<FieldInfo, bool> foldOuts = new Dictionary<FieldInfo, bool>();
-
     public new static void DrawOnInspector(FieldInfo info, Object monoBehaviour)
     {
         object source = info.GetValue(monoBehaviour);
@@ -27,10 +25,12 @@ public class ExSerializeLinkedList : IExSerializeObject
 
             object[] result = new object[(int)source.GetType().GetProperty("Count").GetMethod.Invoke(source, null)];
 
+            EditorGUILayout.BeginVertical(GUI.skin.box);
             for (int index = 0; list.MoveNext(); ++index)
             {
                 result[index] = DrawDataField(list.Current);
             }
+            EditorGUILayout.EndVertical();
 
             source.GetType().GetMethod("Clear").Invoke(source, null);
 

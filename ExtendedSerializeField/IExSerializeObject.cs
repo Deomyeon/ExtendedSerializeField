@@ -1,11 +1,16 @@
 #if UNITY_EDITOR
 
+using System.Collections.Generic;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
 public abstract class IExSerializeObject
 {
+    
+    protected static Dictionary<FieldInfo, bool> foldOuts = new Dictionary<FieldInfo, bool>();
+    protected static Dictionary<object, Vector2> scrollPositions = new Dictionary<object, Vector2>();
+
     public static void DrawOnInspector(FieldInfo info, Object monoBehaviour)
     {
         
@@ -16,7 +21,7 @@ public abstract class IExSerializeObject
     {
         if (data == null)
         {
-            EditorGUILayout.LabelField("Invalid Data");
+            EditorGUILayout.LabelField("None", GUI.skin.textField);
             return data;
         }
         if (data.GetType() == typeof(int))
@@ -63,14 +68,44 @@ public abstract class IExSerializeObject
         {
             return EditorGUILayout.RectIntField((RectInt)data);
         }
-        else if (data.GetType().BaseType == typeof(Object))
+        else if (data.GetType().IsEnum)
         {
-            return EditorGUILayout.ObjectField((Object)data, data.GetType(), true);
+            return EditorGUILayout.EnumFlagsField(data.GetType().Name, (System.Enum)data);
+        }
+        else if (data.GetType().IsSerializable)
+        {
+            if (!scrollPositions.ContainsKey(data))
+            {
+                scrollPositions[data] = Vector2.zero;
+            }
+            scrollPositions[data] = EditorGUILayout.BeginScrollView(scrollPositions[data], true, false, GUI.skin.horizontalScrollbar, GUI.skin.verticalScrollbar, GUI.skin.box);
+            EditorGUILayout.BeginHorizontal();
+            foreach (var field in data.GetType().GetFields())
+            {
+                field.SetValue(data, DrawDataField(field.GetValue(data)));
+                EditorGUILayout.Space(10);
+            }
+            foreach (var property in data.GetType().GetProperties())
+            {
+                object temp = DrawDataField(property.GetMethod.Invoke(data, null));
+                property.SetMethod?.Invoke(data, new object[]{ temp });
+                EditorGUILayout.Space(10);
+            }
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.EndScrollView();
+            return data;
         }
         else
         {
-            EditorGUILayout.LabelField("Invalid Data");
-            return data;
+            if (data as Object != null)
+            {
+                return EditorGUILayout.ObjectField((Object)data, data.GetType(), true);
+            }
+            else
+            {
+                EditorGUILayout.LabelField("Invalid Type", GUI.skin.textField);
+                return data;
+            }
         }
     }
 }

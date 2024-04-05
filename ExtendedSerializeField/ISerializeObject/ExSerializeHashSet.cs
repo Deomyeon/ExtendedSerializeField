@@ -8,8 +8,6 @@ using UnityEngine;
 
 public class ExSerializeHashSet : IExSerializeObject
 {
-    static Dictionary<FieldInfo, bool> foldOuts = new Dictionary<FieldInfo, bool>();
-
     public new static void DrawOnInspector(FieldInfo info, Object monoBehaviour)
     {
         object source = info.GetValue(monoBehaviour);
@@ -37,10 +35,12 @@ public class ExSerializeHashSet : IExSerializeObject
 
             object[] result = new object[clone.Length];
 
+            EditorGUILayout.BeginVertical(GUI.skin.box);
             for (int index = 0; index < result.Length; ++index)
             {
                 result[index] = DrawDataField(clone[index]);
             }
+            EditorGUILayout.EndVertical();
             for (int index = 0; index < result.Length; ++index)
             {
                 remove.Invoke(source, new object[]{ clone[index] });
